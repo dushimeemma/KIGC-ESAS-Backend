@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npx sequelize db:migrate",
     "start": "npm run prestart && node --require babel-register index.js",
-    "dev": "NODE_ENV=development nodemon --require babel-register index.js",
+    "dev": "NODE_ENV=development npm run prestart && nodemon --require babel-register index.js",
     "test": "node_modules/.bin/sequelize db:migrate:undo:all --env test && node_modules/.bin/sequelize  db:migrate --env test && NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 10000 --require babel-register tests/* --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
