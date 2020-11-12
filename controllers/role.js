@@ -1,4 +1,4 @@
-import { Role } from '../models';
+import { Role, User } from '../models';
 
 class role {
   async create(req, res) {
@@ -78,6 +78,35 @@ class role {
     res.status(200).json({
       status: 'ok',
       msg: 'Role deleted success',
+    });
+  }
+  async assign(req, res) {
+    const getRole = req.body;
+    const checkRole = await Role.findOne({ where: { name: getRole.role } });
+    const checkUser = await User.findOne({ where: { email: getRole.email } });
+
+    if (!checkRole)
+      return res.status(400).json({
+        status: 'failed',
+        msg: 'Role not found',
+      });
+
+    if (!checkUser)
+      return res.status(400).json({
+        status: 'failed',
+        msg: 'User not found',
+      });
+
+    const newRole = { role: checkRole.id };
+
+    await User.update(newRole, {
+      where: { email: checkUser.email },
+      returning: true,
+    });
+
+    res.status(200).json({
+      status: 'ok',
+      msg: 'Role assigned success',
     });
   }
 }

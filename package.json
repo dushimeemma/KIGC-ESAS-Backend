@@ -7,8 +7,10 @@
     "prestart": "npx sequelize db:migrate",
     "start": "npm run prestart && node --require babel-register index.js",
     "dev": "NODE_ENV=development npm run prestart && nodemon --require babel-register index.js",
-    "test": "node_modules/.bin/sequelize db:migrate:undo:all --env test && node_modules/.bin/sequelize  db:migrate --env test && NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 10000 --require babel-register tests/* --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "node_modules/.bin/sequelize db:migrate:undo:all --env test && node_modules/.bin/sequelize  db:migrate --env test &&NODE_ENV=test npm run admin:role &&NODE_ENV=test npm run admin:user && NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 15000 --require babel-register tests/* --exit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "admin:role": "babel-node utils/admin/role/index.js",
+    "admin:user": "babel-node utils/admin/user/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "babel-cli": "^6.26.0",
+    "babel-node": "0.0.1-security",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
     "bcryptjs": "^2.4.3",

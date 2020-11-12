@@ -29,6 +29,13 @@ Here are the environment prerequisites for the web app
 - SignUp `/api/auth/signup`
 - Login `/api/auth/login`
 - Logout `/api/auth/logout`
+- Create Role `/api/role/create`
+- Assign Role `/api/role/assign`
+- View Profile `/api/user/profile`
+- Student `/api/student`
+- Finance `/api/finance`
+- Attendance `/api/attendance`
+- Course `/api/course`
 
 # Testing Models
 
@@ -48,5 +55,49 @@ Here are the environment prerequisites for the web app
 {
     "email":"email@email.com",
     "password":"Password2019"
+}
+```
+
+- Assign Role
+
+```
+{
+    "role":"DUMMY",
+    "email":"email@email.com"
+}
+```
+
+- Register Student
+
+```
+{
+    "regNo":"Dummy",
+    "name":"Dummy",
+    "department":"Dummy",
+    "level":"3"
+}
+```
+
+- Record Financial Status Of Student
+
+```
+{
+    "amount":"60000",
+}
+```
+
+- Record Attendance Status Of Student
+
+```
+{
+    "percentage":"90",
+}
+```
+
+- Record Course and Assign it To Student
+
+```
+{
+    "name":"JavaScript",
 }
 ```

@@ -5,10 +5,12 @@ import app from '../../index';
 chai.use(chaiHttp);
 chai.should();
 let token;
+let res1;
+let token1;
 let res;
 let role;
 let id;
-let dummyId = 3;
+let dummyId = 199;
 
 describe('Role', () => {
   before(async () => {
@@ -17,13 +19,33 @@ describe('Role', () => {
       email: 'test2@test.com',
       password: 'Password2019',
     });
+    await chai.request(app).post('/api/auth/signup').send({
+      name: 'DUMMY',
+      email: 'not@email.com',
+      password: 'Password2019',
+    });
+    await chai.request(app).post('/api/auth/signup').send({
+      name: 'FINANCE',
+      email: 'finance@email.com',
+      password: 'Password2019',
+    });
+    await chai.request(app).post('/api/auth/signup').send({
+      name: 'DEPARTMENT',
+      email: 'attendance@email.com',
+      password: 'Password2019',
+    });
     res = await chai
       .request(app)
       .post('/api/auth/login')
       .send({ email: 'test2@test.com', password: 'Password2019' });
     token = res.body.token;
+    res1 = await chai
+      .request(app)
+      .post('/api/auth/login')
+      .send({ email: 'dushimeemma@aol.com', password: 'Admin2020' });
+    token1 = res1.body.token;
     role = {
-      name: 'TEST',
+      name: 'HOD',
       description: 'ROLE TEST',
     };
   });
@@ -39,6 +61,163 @@ describe('Role', () => {
         done();
       });
   });
+  it('Should create a role', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/create')
+      .set({ 'x-auth-token': token })
+      .send({ name: 'NEWROLE', description: 'NEW ROLE' })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should create a role', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/create')
+      .set({ 'x-auth-token': token })
+      .send({ name: 'FINANCE', description: 'NEW FINANCE ROLE' })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should create a role', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/create')
+      .set({ 'x-auth-token': token })
+      .send({ name: 'DEPT', description: 'DEPARTMENT TEST ROLE' })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should not assign role when your are not super admin', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token })
+      .send({
+        role: 'HOD',
+        email: 'test2@test.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(400);
+        done();
+      });
+  });
+  it('Should assign role to user', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token1 })
+      .send({
+        role: 'HOD',
+        email: 'test2@test.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should assign role to user', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token1 })
+      .send({
+        role: 'DEPT',
+        email: 'attendance@email.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should assign role to user', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token1 })
+      .send({
+        role: 'NEWROLE',
+        email: 'not@email.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should assign role to user', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token1 })
+      .send({
+        role: 'FINANCE',
+        email: 'finance@email.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should not assign role when your are not super admin', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token })
+      .send({
+        role: 'HOD',
+        email: 'test2@test.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(400);
+        done();
+      });
+  });
+  it('Should not assign role to when role not found', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token1 })
+      .send({
+        role: 'TESTEXIST',
+        email: 'test2@test.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(400);
+        done();
+      });
+  });
+  it('Should not assign role to when user not found', (done) => {
+    chai
+      .request(app)
+      .post('/api/role/assign')
+      .set({ 'x-auth-token': token1 })
+      .send({
+        role: 'HOD',
+        email: 'testinvad@test.com',
+      })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(400);
+        done();
+      });
+  });
+
   it('Should not create a role when name is not provided', (done) => {
     chai
       .request(app)
@@ -115,7 +294,7 @@ describe('Role', () => {
       .request(app)
       .put(`/api/role/update/${dummyId}`)
       .set({ 'x-auth-token': token })
-      .send({ name: 'DUMMY' })
+      .send({ name: 'HOD' })
       .end((err, res) => {
         if (err) done(err);
         res.should.have.status(404);
