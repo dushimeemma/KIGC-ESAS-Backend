@@ -18,6 +18,10 @@ const StudentModel = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         references: { model: 'Course', key: 'id' },
       },
+      seat: {
+        type: DataTypes.INTEGER,
+        references: { model: 'Seat', key: 'id' },
+      },
     },
     {}
   );
@@ -32,6 +36,10 @@ const StudentModel = (sequelize, DataTypes) => {
     });
     Student.belongsTo(models.Course, {
       foreignKey: 'course',
+      onDelete: 'CASCADE',
+    });
+    Student.belongsTo(models.Seat, {
+      foreignKey: 'seat',
       onDelete: 'CASCADE',
     });
   };

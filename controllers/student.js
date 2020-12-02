@@ -1,4 +1,4 @@
-import { Student, Finance, Attendance, Course } from '../models';
+import { Student, Finance, Attendance, Course, Seat } from '../models';
 
 class StudentController {
   async create(req, res) {
@@ -34,6 +34,10 @@ class StudentController {
           model: Course,
           attributes: ['name'],
         },
+        {
+          model: Seat,
+          attributes: ['room', 'seatNumber'],
+        },
       ],
     });
     res.status(200).json({
@@ -58,6 +62,10 @@ class StudentController {
           model: Course,
           attributes: ['name'],
         },
+        {
+          model: Seat,
+          attributes: ['room', 'seatNumber'],
+        },
       ],
     });
     if (!student) {
@@ -76,6 +84,24 @@ class StudentController {
     const { department, level } = req.body;
     const students = await Student.findAll({
       where: { department, level },
+      include: [
+        {
+          model: Finance,
+          attributes: ['status', 'amount'],
+        },
+        {
+          model: Attendance,
+          attributes: ['status', 'percentage'],
+        },
+        {
+          model: Course,
+          attributes: ['name'],
+        },
+        {
+          model: Seat,
+          attributes: ['room', 'seatNumber'],
+        },
+      ],
     });
 
     res.status(200).json({

@@ -36,6 +36,7 @@ Here are the environment prerequisites for the web app
 - Finance `/api/finance`
 - Attendance `/api/attendance`
 - Course `/api/course`
+- Seat `/api/seat`
 
 # Testing Models
 
@@ -99,5 +100,13 @@ Here are the environment prerequisites for the web app
 ```
 {
     "name":"JavaScript",
+}
+```
+
+- View Seat
+
+```
+{
+    "reg":"REG/No",
 }
 ```
