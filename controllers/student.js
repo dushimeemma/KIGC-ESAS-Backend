@@ -1,4 +1,4 @@
-import { Student, Finance, Attendance, Course, Seat } from '../models';
+import { Student, Finance, Attendance, Course, Seat, Room } from '../models';
 
 class StudentController {
   async create(req, res) {
@@ -38,6 +38,10 @@ class StudentController {
           model: Seat,
           attributes: ['room', 'seatNumber'],
         },
+        {
+          model: Room,
+          attributes: ['name'],
+        },
       ],
     });
     res.status(200).json({
@@ -65,6 +69,10 @@ class StudentController {
         {
           model: Seat,
           attributes: ['room', 'seatNumber'],
+        },
+        {
+          model: Room,
+          attributes: ['name'],
         },
       ],
     });
@@ -98,8 +106,8 @@ class StudentController {
           attributes: ['name'],
         },
         {
-          model: Seat,
-          attributes: ['room', 'seatNumber'],
+          model: Room,
+          attributes: ['name'],
         },
       ],
     });
