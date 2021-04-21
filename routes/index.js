@@ -7,6 +7,7 @@ import finance from './finance';
 import attendance from './attendance';
 import course from './course';
 import seat from './seat';
+import room from './room';
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use('/finance', finance);
 router.use('/attendance', attendance);
 router.use('/course', course);
 router.use('/seat', seat);
+router.use('/room', room);
 
 export default router;
