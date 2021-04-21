@@ -5,7 +5,7 @@ class CourseController {
     const courses = await Course.findAll();
     res.status(200).json({
       status: 'ok',
-      msg: 'Courses retrieved success',
+      message: 'Courses retrieved success',
       courses,
     });
   }
@@ -44,6 +44,22 @@ class CourseController {
       msg: 'Course assigned success',
       name,
       student: newStudent,
+    });
+  }
+
+  async create(req, res) {
+    const { name, start_date, end_date, session } = req.body;
+    const newCourse = {
+      name,
+      start_date,
+      end_date,
+      session,
+      students_number: 0,
+    };
+    const newModule = await Course.create(newCourse);
+    res.status(200).json({
+      message: 'Module created successfully',
+      module: newModule,
     });
   }
 }

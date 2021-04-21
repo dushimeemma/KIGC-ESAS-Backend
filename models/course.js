@@ -3,6 +3,10 @@ const CourseModel = (sequelize, DataTypes) => {
     'Course',
     {
       name: { type: DataTypes.STRING },
+      start_date: { type: DataTypes.DATEONLY },
+      end_date: { type: DataTypes.DATEONLY },
+      session: { type: DataTypes.STRING },
+      students_number: { type: DataTypes.INTEGER },
     },
     {}
   );
