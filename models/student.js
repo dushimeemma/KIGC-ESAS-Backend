@@ -50,6 +50,7 @@ const StudentModel = (sequelize, DataTypes) => {
       foreignKey: 'assigned_room',
       onDelete: 'CASCADE',
     });
+    Student.hasMany(models.AssignedCourse, { foreignKey: 'student_id' });
   };
   return Student;
 };

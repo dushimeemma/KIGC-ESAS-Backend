@@ -12,6 +12,7 @@ const CourseModel = (sequelize, DataTypes) => {
   );
   Course.associate = (models) => {
     Course.hasMany(models.Student, { foreignKey: 'course' });
+    Course.hasMany(models.AssignedCourse, { foreignKey: 'course_id' });
   };
   return Course;
 };

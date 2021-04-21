@@ -8,6 +8,7 @@ import attendance from './attendance';
 import course from './course';
 import seat from './seat';
 import room from './room';
+import assigned_course from './assigned_course';
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/attendance', attendance);
 router.use('/course', course);
 router.use('/seat', seat);
 router.use('/room', room);
+router.use('/assigned_course', assigned_course);
 
 export default router;
