@@ -1,4 +1,4 @@
-import { Seat, Student, Course, Finance, Attendance } from '../models';
+import { Seat, Student, Course, Finance, Attendance, Room } from '../models';
 
 class seatController {
   async assign(req, res) {
@@ -65,8 +65,8 @@ class seatController {
           attributes: ['name'],
         },
         {
-          model: Seat,
-          attributes: ['room', 'seatNumber'],
+          model: Room,
+          attributes: ['name'],
         },
       ],
     });
@@ -84,7 +84,7 @@ class seatController {
       attendance: student.Attendance,
       finance: student.Finance,
       course: student.Course,
-      seat: student.Seat,
+      room: student.Room,
     };
     if (seat.attendance.status === 'unattended')
       return res.status(400).json({

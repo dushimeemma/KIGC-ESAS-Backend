@@ -2,10 +2,10 @@ import Joi from '@hapi/joi';
 
 export const validateAssignedCourse = (req, res, next) => {
   const schema = Joi.object({
-    student_id: Joi.number().required().messages({
-      'number.base': 'Student id must be number',
-      'number.empty': 'Please fill the Student id',
-      'any.required': 'Student id is required',
+    student_reg: Joi.string().required().messages({
+      'string.base': 'Student reg number must be number',
+      'string.empty': 'Please fill the Student reg number',
+      'any.required': 'Student reg number is required',
     }),
     course_id: Joi.number().required().messages({
       'number.base': 'Course id must be number',
