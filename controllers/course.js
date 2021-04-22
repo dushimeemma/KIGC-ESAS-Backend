@@ -9,6 +9,19 @@ class CourseController {
       courses,
     });
   }
+  async getOne(req, res) {
+    const course = await Course.findOne({ where: { id: req.params.id } });
+    if (!course) {
+      return res.status(400).json({
+        error: 'Course not found',
+      });
+    }
+    res.status(200).json({
+      status: 'ok',
+      message: 'Courses retrieved success',
+      course,
+    });
+  }
   async record(req, res) {
     const { name } = req.body;
     let newCourse;

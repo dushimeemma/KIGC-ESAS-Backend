@@ -24,11 +24,7 @@ router
     validateCourse,
     asyncHandler(attendance.create)
   )
-  .get(
-    '/',
-    auth.checkToken,
-    checkDept.checkDept,
-    asyncHandler(attendance.getAll)
-  );
+  .get('/', auth.checkToken, asyncHandler(attendance.getAll))
+  .get('/:id', auth.checkToken, asyncHandler(attendance.getOne));
 
 export default router;
