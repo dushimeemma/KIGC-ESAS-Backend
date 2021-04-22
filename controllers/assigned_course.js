@@ -2,9 +2,9 @@ import { Student, Course, AssignedCourse } from '../models';
 
 class AssignedCourseController {
   async assign(req, res) {
-    const { student_id, course_id } = req.body;
+    const { student_reg, course_id } = req.body;
     const checkStudentExists = await Student.findOne({
-      where: { id: student_id },
+      where: { regNo: student_reg },
     });
     if (!checkStudentExists) {
       return res.status(400).json({
@@ -20,7 +20,7 @@ class AssignedCourseController {
       });
     }
     const newAssignedCourse = {
-      student_id,
+      student_id: checkStudentExists.id,
       course_id,
     };
 
@@ -32,7 +32,7 @@ class AssignedCourseController {
     );
     const update_student_course = await Student.update(
       { course: course_id },
-      { where: { id: student_id }, returning: true }
+      { where: { id: newAssignedCourse.student_id }, returning: true }
     );
     const assigned_course = await AssignedCourse.create(newAssignedCourse);
 

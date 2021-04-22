@@ -35,10 +35,6 @@ class StudentController {
           attributes: ['name'],
         },
         {
-          model: Seat,
-          attributes: ['room', 'seatNumber'],
-        },
-        {
           model: Room,
           attributes: ['name'],
         },
@@ -65,10 +61,6 @@ class StudentController {
         {
           model: Course,
           attributes: ['name'],
-        },
-        {
-          model: Seat,
-          attributes: ['room', 'seatNumber'],
         },
         {
           model: Room,
