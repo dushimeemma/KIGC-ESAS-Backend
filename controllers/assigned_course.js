@@ -30,6 +30,10 @@ class AssignedCourseController {
       { students_number },
       { where: { id: course_id }, returning: true }
     );
+    const update_student_course = await Student.update(
+      { course: course_id },
+      { where: { id: student_id }, returning: true }
+    );
     const assigned_course = await AssignedCourse.create(newAssignedCourse);
 
     res.status(200).json({
