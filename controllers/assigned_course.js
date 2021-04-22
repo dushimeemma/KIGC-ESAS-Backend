@@ -24,6 +24,12 @@ class AssignedCourseController {
       course_id,
     };
 
+    const checkCourses = await Course.findOne({ where: { id: course_id } });
+    const students_number = checkCourses.students_number + 1;
+    const update_students_number = await Course.update(
+      { students_number },
+      { where: { id: course_id }, returning: true }
+    );
     const assigned_course = await AssignedCourse.create(newAssignedCourse);
 
     res.status(200).json({
