@@ -71,7 +71,7 @@ class AssignedCourseController {
         },
       ],
     });
-    if (!assigned_course) {
+    if (assigned_course.length === 0) {
       return res.status(400).json({
         error: 'Record not found',
       });

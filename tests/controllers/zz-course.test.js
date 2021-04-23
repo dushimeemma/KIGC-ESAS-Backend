@@ -11,6 +11,7 @@ let token3;
 let id;
 let student;
 let dummyId = 100;
+let course_id;
 
 describe('Attendance', () => {
   before(async () => {
@@ -106,6 +107,61 @@ describe('Attendance', () => {
       .end((err, res) => {
         if (err) done(err);
         res.should.have.status(400);
+        done();
+      });
+  });
+  it('Should create a course', (done) => {
+    chai
+      .request(app)
+      .post(`/api/course/create`)
+      .send({
+        name: 'JavaSript',
+        start_date: '2021-04-28',
+        end_date: '2021-05-28',
+        session: 'DAY',
+      })
+      .set({ 'x-auth-token': token2 })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should get all courses', (done) => {
+    chai
+      .request(app)
+      .get(`/api/course`)
+      .set({ 'x-auth-token': token3 })
+      .end((err, res) => {
+        if (err) done(err);
+        course_id = res.body.courses[1].id;
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should get one course', (done) => {
+    chai
+      .request(app)
+      .get(`/api/course/${course_id}`)
+      .set({ 'x-auth-token': token3 })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should not get one course when not found', (done) => {
+    chai
+      .request(app)
+      .get(`/api/course/100`)
+      .set({ 'x-auth-token': token3 })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(400);
+        res.should.be.a('Object');
         done();
       });
   });
