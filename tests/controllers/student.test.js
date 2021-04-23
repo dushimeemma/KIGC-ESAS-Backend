@@ -47,6 +47,7 @@ describe('Student', () => {
         done();
       });
   });
+
   it('Should not create student when reg number exists', (done) => {
     chai
       .request(app)
@@ -202,6 +203,24 @@ describe('Student', () => {
       .end((err, res) => {
         if (err) done(err);
         res.should.have.status(404);
+        done();
+      });
+  });
+  it('Should create student', (done) => {
+    chai
+      .request(app)
+      .post('/api/student/create')
+      .send({
+        regNo: 'D/BCS/17/09/6177',
+        name: 'TEST STD',
+        department: 'TESTDP',
+        level: '3',
+      })
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        id = res.body.student.id;
+        res.should.have.status(200);
         done();
       });
   });
