@@ -58,5 +58,28 @@ class AssignedCourseController {
       assigned_courses,
     });
   }
+
+  async getOneByCourseId(req, res) {
+    const assigned_course = await AssignedCourse.findAll({
+      where: { course_id: req.params.id },
+      include: [
+        {
+          model: Student,
+        },
+        {
+          model: Course,
+        },
+      ],
+    });
+    if (!assigned_course) {
+      return res.status(400).json({
+        error: 'Record not found',
+      });
+    }
+    res.status(200).json({
+      message: 'Assigned Courses Retrieved successfully',
+      assigned_course,
+    });
+  }
 }
 export default AssignedCourseController;

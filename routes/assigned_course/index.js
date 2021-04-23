@@ -19,6 +19,7 @@ router
     validateAssignedCourse,
     asyncHandler(assigned_course.assign)
   )
-  .get('/', auth.checkToken, asyncHandler(assigned_course.getAll));
+  .get('/', auth.checkToken, asyncHandler(assigned_course.getAll))
+  .get('/:id', auth.checkToken, asyncHandler(assigned_course.getOneByCourseId));
 
 export default router;
