@@ -37,6 +37,7 @@ Here are the environment prerequisites for the web app
 - Attendance `/api/attendance`
 - Course `/api/course`
 - Seat `/api/seat`
+- Room `/api/room`
 
 # Testing Models
 
@@ -100,6 +101,15 @@ Here are the environment prerequisites for the web app
 ```
 {
     "name":"JavaScript",
+}
+```
+
+- Assign Room
+
+```
+{
+  "name":"MUHABURA",
+  "capacity": 50
 }
 ```
 
