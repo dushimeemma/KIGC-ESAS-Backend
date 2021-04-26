@@ -81,24 +81,21 @@ class seatController {
       name: student.name,
       department: student.department,
       level: student.level,
-      attendance: student.Attendance,
-      finance: student.Finance,
-      course: student.Course,
-      room: student.Room,
+      attendance: student.Attendance ? student.Attendance : 'not recorded',
+      finance: student.Finance ? student.Finance : 'not recorded',
+      course: student.Course ? student.Course.name : 'not recorded',
+      room: student.Room ? student.Room.name : 'not recorded',
     };
     if (seat.attendance.status === 'unattended')
       return res.status(400).json({
-        status: 'failed',
-        msg: `Your attendance is ${seat.attendance.percentage}%. Not allowed to attend ${seat.course.name} exam`,
+        error: `Your attendance is ${seat.attendance.percentage}%. Not allowed to attend ${seat.course.name} exam`,
       });
     if (seat.finance.status === 'unpaid')
       return res.status(400).json({
-        status: 'failed',
-        msg: `Your payment is ${seat.finance.amount}Rwfs. Not allowed to attend ${seat.course.name} exam`,
+        error: `Your payment is ${seat.finance.amount}Rwfs. Not allowed to attend ${seat.course.name} exam`,
       });
     res.status(200).json({
-      status: 'ok',
-      msg: 'Seat retrieved success',
+      message: 'Seat retrieved success',
       seat,
     });
   }
