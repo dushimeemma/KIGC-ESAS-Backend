@@ -2,7 +2,10 @@ import { Router } from 'express';
 import Student from '../../controllers/student';
 import Auth from '../../middleware/auth';
 import HoD from '../../middleware/auth/checkHod';
-import { validateStudent } from '../../middleware/validations/student';
+import {
+  validateStudent,
+  validateFilterStudent,
+} from '../../middleware/validations/student';
 import asyncHandler from '../../middleware/errors/asyncHandler';
 
 const student = new Student();
@@ -23,6 +26,7 @@ router
   .post(
     '/single-class',
     auth.checkToken,
+    validateFilterStudent,
     asyncHandler(student.getStudentByClass)
   )
   .put('/:id', auth.checkToken, asyncHandler(student.update))

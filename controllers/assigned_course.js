@@ -42,6 +42,38 @@ class AssignedCourseController {
     });
   }
 
+  async assignCourseByClass(req, res) {
+    const { course, department, level } = req.body;
+
+    const checkCourse = await Course.findOne({
+      where: { id: course },
+    });
+
+    if (!checkCourse) {
+      return res.status(404).json({
+        error: 'Course Not Found',
+      });
+    }
+
+    const students = await Student.findAll({
+      where: { department, level },
+    });
+
+    if (!students.length) {
+      return res.status(404).json({
+        error: 'Class Not Found',
+      });
+    }
+
+    for (let i = 0; i < students.length; i++) {
+      await students[i].update({ course }, { where: { department, level } });
+    }
+
+    res.status(200).json({
+      message: 'Course assigned successfully',
+    });
+  }
+
   async getAll(req, res) {
     const assigned_courses = await AssignedCourse.findAll({
       include: [

@@ -151,7 +151,7 @@ describe('Student', () => {
   it('Should get all students per class and department', (done) => {
     chai
       .request(app)
-      .post('/api/student/single/class')
+      .post('/api/student/single-class')
       .send({ department: 'TESTDP', level: '3' })
       .set({ 'x-auth-token': token })
       .end((err, res) => {

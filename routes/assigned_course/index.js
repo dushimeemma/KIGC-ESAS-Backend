@@ -2,7 +2,10 @@ import { Router } from 'express';
 
 import AssignedCourse from '../../controllers/assigned_course';
 import asyncHandler from '../../middleware/errors/asyncHandler';
-import { validateAssignedCourse } from '../../middleware/validations/assigned_course';
+import {
+  validateAssignedCourse,
+  validateAssignedCourseByClass,
+} from '../../middleware/validations/assigned_course';
 import Auth from '../../middleware/auth/index';
 import Hod from '../../middleware/auth/checkHod';
 
@@ -18,6 +21,13 @@ router
     hod.getHod,
     validateAssignedCourse,
     asyncHandler(assigned_course.assign)
+  )
+  .post(
+    '/assign-class',
+    auth.checkToken,
+    hod.getHod,
+    validateAssignedCourseByClass,
+    asyncHandler(assigned_course.assignCourseByClass)
   )
   .get('/', auth.checkToken, asyncHandler(assigned_course.getAll))
   .get('/:id', auth.checkToken, asyncHandler(assigned_course.getOneByCourseId));
