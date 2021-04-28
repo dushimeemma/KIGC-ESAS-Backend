@@ -32,6 +32,7 @@ describe('Assigned Room', () => {
         done();
       });
   });
+
   it('Should not assign a course when reg number not found', (done) => {
     chai
       .request(app)

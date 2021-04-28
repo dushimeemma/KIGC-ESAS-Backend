@@ -27,3 +27,21 @@ export const validateStudent = (req, res, next) => {
   if (error) return res.status(400).send({ error: error.details[0].message });
   return next();
 };
+
+export const validateFilterStudent = (req, res, next) => {
+  const schema = Joi.object({
+    department: Joi.string().required().messages({
+      'string.base': 'Department must be string',
+      'string.empty': 'Please fill the Department',
+      'any.required': 'Department is required',
+    }),
+    level: Joi.string().required().messages({
+      'string.base': 'Level must be string',
+      'string.empty': 'Please fill the Level',
+      'any.required': 'Level is required',
+    }),
+  });
+  const { error } = schema.validate(req.body);
+  if (error) return res.status(400).send({ error: error.details[0].message });
+  return next();
+};

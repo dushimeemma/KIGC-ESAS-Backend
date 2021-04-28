@@ -7,6 +7,7 @@ chai.use(chaiHttp);
 chai.should();
 
 let token;
+let token1;
 
 describe('Should assign a room', () => {
   before(async () => {
@@ -15,7 +16,13 @@ describe('Should assign a room', () => {
       password: 'Password2019',
     });
     token = response.body.token;
+    const response1 = await chai
+      .request(app)
+      .post('/api/auth/login')
+      .send({ email: 'test2@test.com', password: 'Password2019' });
+    token1 = response1.body.token;
   });
+
   it('Should assign a room', (done) => {
     chai
       .request(app)
@@ -29,6 +36,7 @@ describe('Should assign a room', () => {
         done();
       });
   });
+
   it("Should not assign when a room doesn' exists", (done) => {
     chai
       .request(app)
@@ -51,6 +59,19 @@ describe('Should assign a room', () => {
       .end((err, res) => {
         if (err) done(err);
         res.should.have.status(400);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should assign a course to a class', (done) => {
+    chai
+      .request(app)
+      .post('/api/assigned_course/assign-class')
+      .set({ 'x-auth-token': token1 })
+      .send({ course: 1, department: 'TESTDP', level: '3' })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
         res.should.be.a('Object');
         done();
       });

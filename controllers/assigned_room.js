@@ -58,7 +58,7 @@ class AssignedRoomController {
       for (let i = 0; i < check_students_to_update.length; i++) {
         await check_students_to_update[i].update(
           { assigned_room: room_id },
-          { course: course_id, assigned_room: null }
+          { where: { course: course_id, assigned_room: null } }
         );
       }
 
