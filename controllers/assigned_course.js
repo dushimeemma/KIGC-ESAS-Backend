@@ -67,6 +67,10 @@ class AssignedCourseController {
 
     for (let i = 0; i < students.length; i++) {
       await students[i].update({ course }, { where: { department, level } });
+      await AssignedCourse.create({
+        student_id: students[i].id,
+        course_id: course,
+      });
     }
 
     res.status(200).json({
