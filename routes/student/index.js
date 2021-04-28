@@ -20,7 +20,11 @@ router
   )
   .get('/', auth.checkToken, asyncHandler(student.getAll))
   .get('/:id', auth.checkToken, asyncHandler(student.getOne))
-  .get('/single/class', auth.checkToken, asyncHandler(student.getDpt))
+  .post(
+    '/single-class',
+    auth.checkToken,
+    asyncHandler(student.getStudentByClass)
+  )
   .put('/:id', auth.checkToken, asyncHandler(student.update))
   .delete('/:id', auth.checkToken, asyncHandler(student.delete));
 

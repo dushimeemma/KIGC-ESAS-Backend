@@ -80,7 +80,7 @@ class StudentController {
       student,
     });
   }
-  async getDpt(req, res) {
+  async getStudentByClass(req, res) {
     const { department, level } = req.body;
     const students = await Student.findAll({
       where: { department, level },
