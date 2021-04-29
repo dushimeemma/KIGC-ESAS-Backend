@@ -143,5 +143,12 @@ class StudentController {
       msg: 'Student deleted successfully',
     });
   }
+
+  async clearStudents(req, res) {
+    await Student.destroy({ truncate: true, where: {} });
+    res.status(200).json({
+      message: 'Student cleared successfully',
+    });
+  }
 }
 export default StudentController;

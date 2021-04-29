@@ -75,5 +75,12 @@ class CourseController {
       module: newModule,
     });
   }
+
+  async clearCourses(req, res) {
+    await Course.destroy({ where: {}, truncate: true });
+    res.status(200).json({
+      message: 'Course cleared successfully',
+    });
+  }
 }
 export default CourseController;
