@@ -64,4 +64,52 @@ describe('Clean Models', () => {
         done();
       });
   });
+  it('Should get count students', (done) => {
+    chai
+      .request(app)
+      .get('/api/count/students')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should get count courses', (done) => {
+    chai
+      .request(app)
+      .get('/api/count/courses')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should get count rooms', (done) => {
+    chai
+      .request(app)
+      .get('/api/count/rooms')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
+  it('Should get count assigned courses', (done) => {
+    chai
+      .request(app)
+      .get('/api/count/assigned-rooms')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
 });

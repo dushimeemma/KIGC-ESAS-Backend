@@ -22,52 +22,88 @@ class AssignedRoomController {
       });
     }
 
-    const room_capacity = checkRoomExists.capacity / 2;
-
-    const un_assigned_students = await Student.findAll({
+    const students = await Student.findAll({
       where: { course: course_id, assigned_room: null },
     });
-
-    let un_updated_students;
-    let student_to_update;
-    let check_students_to_update;
-
-    if (un_assigned_students.length === 0) {
+    if (!students.length) {
       return res.status(400).json({
-        error: 'All Students Have Rooms',
+        error: `All Students in ${checkCourseExists.name} Have Rooms`,
       });
     }
 
-    if (checkRoomExists.status === 'filled') {
-      return res.status(400).json({
-        error: 'The Room is Full',
-      });
-    }
+    let students_number = checkCourseExists.students_number;
+    let room_capacity = checkRoomExists.capacity;
 
-    if (room_capacity > un_assigned_students.length) {
-      un_updated_students = room_capacity - un_assigned_students.length;
-      if (un_updated_students === 0) {
-        await Room.update({ status: 'filled' }, { where: { id: course_id } });
+    if (students_number > parseInt((1 / 2) * room_capacity)) {
+      students_number = parseInt(students_number - (1 / 2) * room_capacity);
+      room_capacity = parseInt((1 / 2) * room_capacity);
+      if (room_capacity === 0) {
+        await Room.update({ status: 'filled' }, { where: { id: room_id } });
       }
-      student_to_update = room_capacity - un_updated_students;
-      check_students_to_update = await Student.findAll({
-        limit: student_to_update,
-        where: { course: course_id, assigned_room: null },
-      });
-
-      for (let i = 0; i < check_students_to_update.length; i++) {
-        await check_students_to_update[i].update(
+      await Room.update(
+        { capacity: room_capacity },
+        { where: { id: room_id } }
+      );
+      await Course.update({ students_number }, { where: { id: course_id } });
+      for (let i = 0; i < room_capacity; i++) {
+        await students[i].update(
           { assigned_room: room_id },
           { where: { course: course_id, assigned_room: null } }
         );
       }
-
-      const capacity = parseInt(room_capacity + student_to_update);
-
-      await Room.update({ capacity }, { where: { id: room_id } });
-
       return res.status(200).json({
-        message: 'Room assigned successfully',
+        message: `remains ${students_number} students in ${checkCourseExists.name} assign them to another room please`,
+      });
+    } else if (students_number < parseInt((1 / 2) * room_capacity)) {
+      room_capacity =
+        parseInt((1 / 2) * room_capacity) -
+        students_number +
+        parseInt((1 / 2) * room_capacity);
+      if (room_capacity === 0) {
+        await Room.update({ status: 'filled' }, { where: { id: room_id } });
+      }
+      await Room.update(
+        { capacity: room_capacity },
+        { where: { id: room_id } }
+      );
+      await Course.update({ students_number: 0 }, { where: { id: course_id } });
+      const students = await Student.findAll({
+        where: { course: course_id, assigned_room: null },
+      });
+
+      for (let i = 0; i < students.length; i++) {
+        await students[i].update(
+          { assigned_room: room_id },
+          { where: { course: course_id, assigned_room: null } }
+        );
+      }
+      return res.status(200).json({
+        message: `All Students in ${checkCourseExists.name} Got Rooms`,
+      });
+    } else if (students_number === parseInt((1 / 2) * room_capacity)) {
+      room_capacity = parseInt((1 / 2) * room_capacity);
+      if (room_capacity === 0) {
+        await Room.update({ status: 'filled' }, { where: { id: room_id } });
+      }
+      await Room.update(
+        { capacity: room_capacity },
+        { where: { id: room_id } }
+      );
+      await Course.update({ students_number: 0 }, { where: { id: course_id } });
+
+      for (let i = 0; i < students.length; i++) {
+        await students[i].update(
+          { assigned_room: room_id },
+          { where: { course: course_id, assigned_room: null } }
+        );
+      }
+      return res.status(200).json({
+        message: `All Students in ${checkCourseExists.name} Got Rooms`,
+      });
+    } else if (room_capacity === 0 || checkRoomExists.status === 'filled') {
+      await Room.update({ status: 'filled' }, { where: { id: room_id } });
+      return res.status(400).json({
+        error: 'Room is full',
       });
     }
   }

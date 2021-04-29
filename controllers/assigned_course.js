@@ -65,6 +65,8 @@ class AssignedCourseController {
       });
     }
 
+    let students_number = 0;
+
     for (let i = 0; i < students.length; i++) {
       await students[i].update({ course }, { where: { department, level } });
       const checkStudentExits = await AssignedCourse.findOne({
@@ -83,6 +85,10 @@ class AssignedCourseController {
           { where: { student_id: students[i].id } }
         );
       }
+
+      students_number += 1;
+
+      await Course.update({ students_number }, { where: { id: course } });
     }
 
     res.status(200).json({
