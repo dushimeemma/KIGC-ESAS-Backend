@@ -67,10 +67,22 @@ class AssignedCourseController {
 
     for (let i = 0; i < students.length; i++) {
       await students[i].update({ course }, { where: { department, level } });
-      await AssignedCourse.create({
-        student_id: students[i].id,
-        course_id: course,
+      const checkStudentExits = await AssignedCourse.findOne({
+        where: { student_id: students[i].id },
       });
+      if (!checkStudentExits) {
+        await AssignedCourse.create({
+          student_id: students[i].id,
+          course_id: course,
+        });
+      } else {
+        await checkStudentExits.update(
+          {
+            course_id: course,
+          },
+          { where: { student_id: students[i].id } }
+        );
+      }
     }
 
     res.status(200).json({
