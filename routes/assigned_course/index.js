@@ -8,10 +8,12 @@ import {
 } from '../../middleware/validations/assigned_course';
 import Auth from '../../middleware/auth/index';
 import Hod from '../../middleware/auth/checkHod';
+import Admin from '../../middleware/auth/checkAdmin';
 
 const assigned_course = new AssignedCourse();
 const auth = new Auth();
 const hod = new Hod();
+const admin = new Admin();
 const router = Router();
 
 router
@@ -30,6 +32,12 @@ router
     asyncHandler(assigned_course.assignCourseByClass)
   )
   .get('/', auth.checkToken, asyncHandler(assigned_course.getAll))
-  .get('/:id', auth.checkToken, asyncHandler(assigned_course.getOneByCourseId));
+  .get('/:id', auth.checkToken, asyncHandler(assigned_course.getOneByCourseId))
+  .get(
+    '/clean/assigned-courses',
+    auth.checkToken,
+    admin.getAdmin,
+    asyncHandler(assigned_course.cleanAssignedCourse)
+  );
 
 export default router;

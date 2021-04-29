@@ -129,5 +129,12 @@ class AssignedCourseController {
       assigned_course,
     });
   }
+
+  async cleanAssignedCourse(req, res) {
+    await AssignedCourse.destroy({ where: {}, truncate: true });
+    res.status(200).json({
+      message: 'Assigned Course Cleared Successfully',
+    });
+  }
 }
 export default AssignedCourseController;

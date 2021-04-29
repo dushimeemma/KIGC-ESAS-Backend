@@ -24,6 +24,13 @@ class RoomController {
       rooms,
     });
   }
+
+  async clearRooms(req, res) {
+    await Room.destroy({ where: {}, truncate: true });
+    res.status(200).json({
+      message: 'Room cleared successfully',
+    });
+  }
 }
 
 export default RoomController;
