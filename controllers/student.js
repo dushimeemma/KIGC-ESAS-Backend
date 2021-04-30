@@ -1,4 +1,8 @@
+import Sequelize from 'sequelize';
+
 import { Student, Finance, Attendance, Course, Seat, Room } from '../models';
+
+const Op = Sequelize.Op;
 
 class StudentController {
   async create(req, res) {
@@ -141,6 +145,40 @@ class StudentController {
     res.status(200).json({
       status: 'ok',
       msg: 'Student deleted successfully',
+    });
+  }
+
+  async searchStudentsByNameOrRegNo(req, res) {
+    const { term } = req.query;
+    const students = await Student.findAll({
+      where: {
+        [Op.or]: {
+          name: { [Op.like]: `%${term}%` },
+          regNo: { [Op.like]: `%${term}%` },
+        },
+      },
+      include: [
+        {
+          model: Finance,
+          attributes: ['status', 'amount'],
+        },
+        {
+          model: Attendance,
+          attributes: ['status', 'percentage'],
+        },
+        {
+          model: Course,
+          attributes: ['name'],
+        },
+        {
+          model: Room,
+          attributes: ['name'],
+        },
+      ],
+    });
+    res.status(200).json({
+      message: 'Students retrieved successfully',
+      students,
     });
   }
 
