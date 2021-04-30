@@ -219,8 +219,19 @@ describe('Student', () => {
       .set({ 'x-auth-token': token })
       .end((err, res) => {
         if (err) done(err);
-        id = res.body.student.id;
         res.should.have.status(200);
+        done();
+      });
+  });
+  it('Should filter students by regNo or name', (done) => {
+    chai
+      .request(app)
+      .get('/api/student/search/students?term=6177')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
         done();
       });
   });

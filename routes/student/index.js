@@ -31,6 +31,11 @@ router
     admin.getAdmin,
     asyncHandler(student.clearStudents)
   )
+  .get(
+    '/search/students',
+    auth.checkToken,
+    asyncHandler(student.searchStudentsByNameOrRegNo)
+  )
   .post(
     '/single-class',
     auth.checkToken,
