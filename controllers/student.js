@@ -182,6 +182,15 @@ class StudentController {
     });
   }
 
+  async getStudentsByAssignedRoom(req, res) {
+    const { id } = req.params;
+    const students = await Student.findAll({ where: { assigned_room: id } });
+    res.status(200).json({
+      message: 'Students retrieved successfully',
+      students,
+    });
+  }
+
   async clearStudents(req, res) {
     await Student.destroy({ truncate: true, where: {} });
     res.status(200).json({

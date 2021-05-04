@@ -235,4 +235,16 @@ describe('Student', () => {
         done();
       });
   });
+  it('Should get room by assigned room', (done) => {
+    chai
+      .request(app)
+      .get('/api/student/room/1')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
 });
