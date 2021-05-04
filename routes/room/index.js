@@ -21,12 +21,15 @@ router
     validateRoom,
     asyncHandler(room.create)
   )
+  .put('/:id', auth.checkToken, dept.checkDept, asyncHandler(room.update))
   .get('/', auth.checkToken, asyncHandler(room.getAll))
   .get(
     '/clean/rooms',
     auth.checkToken,
     admin.getAdmin,
     asyncHandler(room.clearRooms)
-  );
+  )
+  .get('/:id', auth.checkToken, asyncHandler(room.getOne))
+  .delete('/:id', auth.checkToken, asyncHandler(room.delete));
 
 export default router;

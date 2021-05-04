@@ -36,6 +36,11 @@ router
     auth.checkToken,
     asyncHandler(student.searchStudentsByNameOrRegNo)
   )
+  .get(
+    '/room/:id',
+    auth.checkToken,
+    asyncHandler(student.getStudentsByAssignedRoom)
+  )
   .post(
     '/single-class',
     auth.checkToken,
