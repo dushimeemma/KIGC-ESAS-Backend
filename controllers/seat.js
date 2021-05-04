@@ -70,11 +70,11 @@ class seatController {
         },
       ],
     });
-    if (!student)
+    if (!student || !student.Course)
       return res.status(404).json({
-        status: 'failed',
-        msg: 'You did not register for any module',
+        message: 'You did not register for any module',
       });
+
     const seat = {
       id: student.id,
       regNo: student.regNo,
@@ -86,13 +86,24 @@ class seatController {
       course: student.Course ? student.Course.name : 'not recorded',
       room: student.Room ? student.Room.name : 'not recorded',
     };
+
+    if (!student.Attendance) {
+      return res.status(404).json({
+        message: `Your attendance for ${seat.course} is not recorded please reach out to your department`,
+      });
+    }
+    if (!student.Finance) {
+      return res.status(404).json({
+        message: `Your financial status for ${seat.course} is not recorded please reach out to finance`,
+      });
+    }
     if (seat.attendance.status === 'unattended')
       return res.status(400).json({
-        error: `Your attendance is ${seat.attendance.percentage}%. Not allowed to attend ${seat.course.name} exam`,
+        error: `Your attendance is ${seat.attendance.percentage}%. Not allowed to attend ${seat.course} exam`,
       });
     if (seat.finance.status === 'unpaid')
       return res.status(400).json({
-        error: `Your payment is ${seat.finance.amount}Rwfs. Not allowed to attend ${seat.course.name} exam`,
+        error: `Your payment is ${seat.finance.amount}Rwfs. Not allowed to attend ${seat.course} exam`,
       });
     res.status(200).json({
       message: 'Seat retrieved success',
