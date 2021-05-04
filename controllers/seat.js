@@ -72,7 +72,7 @@ class seatController {
     });
     if (!student || !student.Course)
       return res.status(404).json({
-        message: 'You did not register for any module',
+        error: 'You did not register for any module',
       });
 
     const seat = {
@@ -89,12 +89,12 @@ class seatController {
 
     if (!student.Attendance) {
       return res.status(404).json({
-        message: `Your attendance for ${seat.course} is not recorded please reach out to your department`,
+        error: `Your attendance for ${seat.course} is not recorded please reach out to your department`,
       });
     }
     if (!student.Finance) {
       return res.status(404).json({
-        message: `Your financial status for ${seat.course} is not recorded please reach out to finance`,
+        error: `Your financial status for ${seat.course} is not recorded please reach out to finance`,
       });
     }
     if (seat.attendance.status === 'unattended')
