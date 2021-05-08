@@ -8,5 +8,6 @@ const user = new User();
 const auth = new Auth();
 
 router.get('/profile', auth.checkToken, asyncHandler(user.getProfile));
+router.get('/profile/:id', auth.checkToken, asyncHandler(user.getOneUser));
 
 export default router;
