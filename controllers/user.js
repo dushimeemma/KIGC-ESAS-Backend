@@ -9,6 +9,18 @@ class profile {
       users,
     });
   }
+
+  async getOneUser(req, res) {
+    const user = await User.findOne({
+      where: { id: req.params.id },
+      include: { model: Role },
+    });
+
+    res.status(200).json({
+      message: 'User retrieved successfully',
+      user,
+    });
+  }
 }
 
 export default profile;

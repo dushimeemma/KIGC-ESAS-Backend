@@ -26,4 +26,16 @@ describe('Profile', () => {
         done();
       });
   });
+  it('Should get single user', (done) => {
+    chai
+      .request(app)
+      .get('/api/user/profile/1')
+      .set({ 'x-auth-token': token })
+      .end((err, res) => {
+        if (err) done(err);
+        res.should.have.status(200);
+        res.should.be.a('Object');
+        done();
+      });
+  });
 });
