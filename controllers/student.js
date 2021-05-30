@@ -184,7 +184,27 @@ class StudentController {
 
   async getStudentsByAssignedRoom(req, res) {
     const { id } = req.params;
-    const students = await Student.findAll({ where: { assigned_room: id } });
+    const students = await Student.findAll({
+      where: { assigned_room: id },
+      include: [
+        {
+          model: Finance,
+          attributes: ['status', 'amount'],
+        },
+        {
+          model: Attendance,
+          attributes: ['status', 'percentage'],
+        },
+        {
+          model: Course,
+          attributes: ['name'],
+        },
+        {
+          model: Room,
+          attributes: ['name'],
+        },
+      ],
+    });
     res.status(200).json({
       message: 'Students retrieved successfully',
       students,
