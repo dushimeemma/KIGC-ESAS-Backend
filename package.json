@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "prestart": "npx sequelize db:migrate",
-    "start": "NODE_ENV=production npm run prestart && node --require babel-register index.js",
-    "dev": "NODE_ENV=development npm run prestart && nodemon --require babel-register index.js",
+    "start": "NODE_ENV=production npm run prestart && node --require babel-register ./src/index.js",
+    "dev": "NODE_ENV=development npm run prestart && nodemon --require babel-register ./src/index.js",
     "test": "node_modules/.bin/sequelize db:migrate:undo:all --env test && node_modules/.bin/sequelize  db:migrate --env test &&NODE_ENV=test npm run admin:role &&NODE_ENV=test npm run admin:user && NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 15000 --require babel-register tests/* --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "admin:role": "babel-node utils/admin/role/index.js",
-    "admin:user": "babel-node utils/admin/user/index.js"
+    "admin:role": "babel-node src/utils/admin/role/index.js",
+    "admin:user": "babel-node src/utils/admin/user/index.js",
+    "start:docker":"nodemon --require babel-register ./src/index.js"
   },
   "repository": {
     "type": "git",

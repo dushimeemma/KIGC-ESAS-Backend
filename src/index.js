@@ -12,7 +12,7 @@ app.use('/api', routes);
 app.use('/', (req, res) => {
   res.status(200).json({
     status: 'ok',
-    msg: 'Welcome To KIGC ESAS REST API',
+    msg: 'Welcome To KIGC ESAS REST APIs',
   });
 });
 
