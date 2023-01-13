@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+   postgres_dev:
+      container_name: postgres
+      image: postgres:latest
+      ports:
+        - '${DB_PORT}:${DB_PORT}'
+      volumes:
+       - db_persdata:/var/lib/postgrespers
+      environment:
+         POSTGRES_USER: ${DEV_DB_USERNAME}
+         POSTGRES_PASSWORD: ${DEV_DB_PASSWORD}
+         POSTGRES_DB: ${DEV_DB}
+      network_mode: host
+   kigc_esas_backend:
+      build: ./
+      container_name: kigc_esas_backend
+      ports: 
+         - '${PORT}:${PORT}'
+      volumes:
+         - ./:/app
+         - /app/node_modules
+      depends_on:
+        - postgres_dev
+      network_mode: host
+volumes:
+  db_persdata : {}

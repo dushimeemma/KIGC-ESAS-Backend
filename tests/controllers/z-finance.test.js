@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../index';
-import { Student } from '../../models';
+import app from '../../src/index';
+import { Student } from '../../src/models';
 
 chai.use(chaiHttp);
 chai.should();

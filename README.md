@@ -16,13 +16,16 @@ Here are the environment prerequisites for the web app
 
 ```
 - NodeJS
+- Docker [Optional]
 ```
 
 # Installing
 
 - Clone the repo `git clone https://github.com/dushimeemma/KIGC-ESAS-Backend`
-- Install `npm install`
-- Run `npm run dev`
+- Install `npm install` or `yarn`
+- Create env file `touch .env && cp .env.example .env`
+- Run `npm run dev` or `yarn dev`
+- Run with docker `docker-compose up`
 
 # Endpoints
 

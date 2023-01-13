@@ -1,8 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../index';
-import { User } from '../../models';
-import { encode } from '../../utils/jwt';
+import app from '../../src/index';
+import { User } from '../../src/models';
+import { encode } from '../../src/utils/jwt';
 
 chai.use(chaiHttp);
 chai.should();
